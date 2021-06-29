@@ -63,7 +63,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
                         coinsHashMap["name"] = t.name!!
                         coinsHashMap["symbol"] = t.symbol!!
                         coinsHashMap["price"] = t.price!!
-                        saveToFirestore(navController, t.id!!, coinsHashMap)
+                        saveToFirestore(navController, auth.currentUser!!.uid, t.id!!, coinsHashMap)
                     }
                     override fun onError(e: Throwable) {
                         e.printStackTrace()
@@ -73,8 +73,9 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
 
     }
 
-    private fun saveToFirestore(navController: NavController, id : String, hashMap: HashMap<String, Any>){
-        db.collection("FavoriteCoins").whereEqualTo("id", id).get()
+    private fun saveToFirestore(navController: NavController, userId : String, id : String, hashMap: HashMap<String, Any>){
+
+        db.collection("FavoriteCoins").whereEqualTo("userId", userId).whereEqualTo("id", id).get()
             .addOnSuccessListener {
                 if (it != null) {
                     if (it.isEmpty) {
@@ -90,12 +91,16 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
-                    }else{
-                        Toast.makeText(getApplication(),"Already added!", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(
+                            getApplication(),
+                            "Already added!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
                     }
                 }
             }
-    }
-
 
 }
