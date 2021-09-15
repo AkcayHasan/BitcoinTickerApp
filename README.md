@@ -2,4 +2,4 @@
 A Simple Cryptocurrency Price Tracker App
 
 ## Used Technologies
-MVVM - Data Binding - Retrofit - Glide - RxJava - Room
+MVVM - Firebase - Data Binding - Retrofit - Glide - RxJava - Room
